@@ -10,7 +10,7 @@ import {
 
 @ApiTags('inventory')
 @ApiSecurity('API-KEY')
-@Controller('inventory')
+@Controller({ path: 'inventory', version: '1' })
 export class InventoryController {
   constructor(private readonly service: InventoryService) {}
 
