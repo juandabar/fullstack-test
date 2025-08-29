@@ -19,7 +19,6 @@ pnpm-lock.yaml
 
 # Archivos de entorno
 .env
-.env.*.local
 
 # Cobertura de tests
 coverage/
