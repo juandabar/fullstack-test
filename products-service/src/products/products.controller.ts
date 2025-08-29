@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Put, Delete, ParseIntPipe, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto, UpdateProductDto } from './dto/create-product.dto';
-import { ApiTags, ApiResponse, ApiParam, ApiSecurity } from '@nestjs/swagger';
+import { ApiBody, ApiTags, ApiResponse, ApiParam, ApiSecurity } from '@nestjs/swagger';
 import { 
   createProductResponse,
   getAllProductsResponse,
@@ -36,6 +36,12 @@ export class ProductsController {
   }
 
   @Put(':id')
+  @ApiBody({
+    description: 'Datos del producto a modificar',
+    schema: {
+      example: { nombre: "Laptop Lenovo", precio: 100000},
+    },
+  })
   @UsePipes(new ValidationPipe({whitelist: true, forbidNonWhitelisted: true}))
   @ApiResponse({ status: 200, description: 'Producto actualizado', schema: { example: updateProductResponse } })
   update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateProductDto) {
