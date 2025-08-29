@@ -34,7 +34,7 @@ Sigue estos pasos para clonar y levantar los servicios:
 - ***inventory-service/***\# npm install
 - ***inventory-service/***\# npm run build
 - ---
-- ***fullstack-test/*** \# docker-compose up --build --force-recreate
+- ***fullstack-test/*** \# docker-compose up -d
 ### 3. 📖 Documentación Swagger
 
 Cada microservicio expone su propia documentación Swagger:
