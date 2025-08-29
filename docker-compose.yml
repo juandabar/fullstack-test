@@ -15,48 +15,39 @@ services:
     volumes:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
       - mysql_data:/var/lib/mysql
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+  products-service:
+    build: ./products-service
+    container_name: products_service
     restart: always
+    depends_on:
+      - mysql
     ports:
-      - "8080:80"
+      - "3001:3001"
     environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: rootpass
-
-  #products-service:
-   # build: ./products-service
-    #container_name: products_service
-    #restart: always
-    #depends_on:
-      #- mysql
-    #ports:
-      #- "3001:3000"
-    #environment:
-      #DATABASE_HOST: mysql
-      #DATABASE_PORT: 3306
-      #DATABASE_USER: testuser
-      #DATABASE_PASSWORD: testpass
-      #DATABASE_NAME: fullstack
-
-  #inventory-service:
-    #build: ./inventory-service
-    #container_name: inventory_service
-    #restart: always
-    #depends_on:
-      #- mysql
-      #- products-service
-    #ports:
-      #- "3002:3000"
-    #environment:
-      #DATABASE_HOST: mysql
-      #DATABASE_PORT: 3306
-      #DATABASE_USER: testuser
-      #DATABASE_PASSWORD: testpass
-      #DATABASE_NAME: fullstack
-      #PRODUCTS_API_URL: http://products-service:3000
-
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_USER: testuser
+      DATABASE_PASSWORD: testpass
+      DATABASE_NAME: fullstack
+      API_KEY: secret-products-123
+    command: npm run start:prod
+  inventory-service:
+    build: ./inventory-service
+    container_name: inventory_service
+    restart: always
+    depends_on:
+      - mysql
+      - products-service
+    ports:
+      - "3002:3002"
+    environment:
+      DATABASE_HOST: mysql
+      DATABASE_PORT: 3306
+      DATABASE_USER: testuser
+      DATABASE_PASSWORD: testpass
+      DATABASE_NAME: fullstack
+      PRODUCTS_API_URL: http://products-service:3001
+      API_KEY: secret-inventory-456
+    command: npm run start:prod
 volumes:
   mysql_data:

@@ -15,6 +15,10 @@ export class InventoryService {
 
   async create(producto_id: number, cantidad: number) {
 
+    const product = await this.fetchProduct(producto_id);
+
+    if (!product) throw new NotFoundException('Producto no encontrado');
+
     const inventory = await this.repo.findOne({ where: { producto_id } });
 
     if (!inventory) {
@@ -24,8 +28,7 @@ export class InventoryService {
 
     }
 
-    console.log(inventory)
-
+    return inventory;
 
   }
 
@@ -67,12 +70,12 @@ export class InventoryService {
     try {
       
       const res = await firstValueFrom(
-        this.http.get(`http://localhost:3001/products/${producto_id}`,
+        this.http.get(`${process.env.PRODUCTS_API_URL}/products/${producto_id}`,
           { headers: { 'x-api-key': process.env.PRODUCTS_API_KEY || 'secret-products-123' } }
         )
       );
 
-      return res.data;
+      return res.data.data.attributes;
 
     } catch (err) {
 

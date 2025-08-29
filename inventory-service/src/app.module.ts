@@ -7,14 +7,17 @@ import { ApiKeyMiddleware } from './common/middleware/api-key.middleware';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: ['.env.development', '.env'],
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DATABASE_HOST || '127.0.0.1',
-      port: Number(process.env.DATABASE_PORT) || 3308,
-      username: process.env.DATABASE_USER || 'testuser',
-      password: process.env.DATABASE_PASSWORD || 'testpass',
-      database: process.env.DATABASE_NAME || 'fullstack',
+      host: process.env.DATABASE_HOST,
+      port: Number(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       entities: [Inventory],
       synchronize: true,
     }),
