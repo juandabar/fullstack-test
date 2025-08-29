@@ -48,9 +48,15 @@ Ejecuta este comando desde el directorio raíz de cada servicio **(products-serv
 - `cd` **products-service** || `cd` **inventory-service**
 - npm run test
 ---
+
 **Integración:**
 - `cd` **inventory-service**
 - npm run test:e2e
+
+## 5. Modo desarrollador
+En el caso necesario de ejecutar el codigo en el modo desarrollador, se debe eliminar el contenedor de (products_service) y (inventory_service) (`evita errores por puertos ya usados`) y ejecutar los siguientes comandos.
+- ***products-service/***\# npm run start:dev
+- ***inventory-service/***\# npm run start:dev
 ### 🏗️ Descripción breve de la arquitectura
 ***Products Service***:
  Responsable de la gestión de productos (crear, listar, consultar).
