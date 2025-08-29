@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Param, Body, Put } from '@nestjs/common';
 import { InventoryService } from './inventory.service';
-import { ApiTags, ApiResponse, ApiParam, ApiSecurity } from '@nestjs/swagger';
+import { ApiBody, ApiTags, ApiResponse, ApiParam, ApiSecurity } from '@nestjs/swagger';
 import {
   createInventoryResponse,
   getInventoryProductResponse,
@@ -15,6 +15,15 @@ export class InventoryController {
   constructor(private readonly service: InventoryService) {}
 
   @Post()
+  @ApiBody({
+    description: 'Datos del inventario a crear.',
+    schema: {
+      example: {
+          producto_id: 1,
+          cantidad: 10
+      },
+    },
+  })
   @ApiResponse({ status: 200, description: 'Inventario creado', schema: {example: createInventoryResponse} })
   create(@Body() body: { producto_id: number; cantidad: number }) {
     return this.service.create(body.producto_id, body.cantidad);
@@ -28,6 +37,14 @@ export class InventoryController {
   }
 
   @Put(':producto_id')
+  @ApiBody({
+    description: 'Cantidad de producto comprado para descontar del stock',
+    schema: {
+      example: {
+        cantidadComprada: 5,
+      },
+    },
+  })
   @ApiParam({ name: 'producto_id', type: Number })
   @ApiResponse({ status: 200, description: 'Inventario actualizado', schema: {example: updateInventoryResponse} })
   updateStock(
