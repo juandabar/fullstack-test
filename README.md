@@ -16,7 +16,7 @@ Ambos servicios se comunican con **MySQL** dentro de un entorno **Docker** y exp
 Antes de iniciar, asegúrate de contar con los siguientes componentes instalados en tu entorno:  
 - Node.js v22+
 - **Docker** y **Docker Compose**  
-- NPM o Yarn
+- NPM
 ---
 
 ## 🚀 Instalación y Configuración
