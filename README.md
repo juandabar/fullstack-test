@@ -71,7 +71,7 @@ El inventory-service consume al products-service vía HTTP, autenticándose con 
 Ambos microservicios usan un interceptor global para devolver datos en formato JSON:API.
 
 ### ⚙️ Decisiones técnicas y justificaciones
-- NestJS + TypeScript: Framework modular, con DI, interceptores, middlewares y soporte de testing → facilita buenas prácticas en APIs REST.
+- Entorno de ejecución NodeJS con NestJS + TypeScript: Framework modular, con DI, interceptores, middlewares y soporte de testing → facilita buenas prácticas en APIs REST.
 - ***MySQL en lugar de MongoDB:*** 
  -Los datos de productos e inventario tienen relaciones claras y transacciones simples.
  -La consistencia relacional es más útil que la flexibilidad de documentos.
