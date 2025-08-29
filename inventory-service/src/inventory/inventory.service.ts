@@ -70,7 +70,7 @@ export class InventoryService {
     try {
       
       const res = await firstValueFrom(
-        this.http.get(`${process.env.PRODUCTS_API_URL}/products/${producto_id}`,
+        this.http.get(`${process.env.PRODUCTS_API_URL}/api/v1/products/${producto_id}`,
           { headers: { 'x-api-key': process.env.PRODUCTS_API_KEY || 'secret-products-123' } }
         )
       );

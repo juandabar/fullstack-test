@@ -1,11 +1,14 @@
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { JsonApiInterceptor } from './common/interceptors/json-api.interceptor';
 
 async function bootstrap() {
+
   const app = await NestFactory.create(AppModule);
+
+  app.setGlobalPrefix("api");
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -18,6 +21,11 @@ async function bootstrap() {
   app.useGlobalInterceptors(
     new JsonApiInterceptor()
   );
+  
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1'
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Inventory API')
@@ -32,8 +40,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
-
-
   
   const PORT = process.env.PORT ?? 3002;
   await app.listen(PORT, () => {

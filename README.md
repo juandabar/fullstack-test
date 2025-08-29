@@ -14,8 +14,9 @@ Ambos servicios se comunican con **MySQL** dentro de un entorno **Docker** y exp
 ## 📦 Requisitos del Sistema
 
 Antes de iniciar, asegúrate de contar con los siguientes componentes instalados en tu entorno:  
+- Node.js v22+
 - **Docker** y **Docker Compose**  
-
+- NPM o Yarn
 ---
 
 ## 🚀 Instalación y Configuración
@@ -64,7 +65,7 @@ Expone una API REST versionada con /api/v1/products.
 
 ***Inventory Service***:
 Responsable de la gestión del inventario. Consulta el servicio de productos para enriquecer los datos.
-Expone /inventory.
+Expone /api/v1/inventory.
 
 ***Base de datos***:
 Ambos servicios usan MySQL para persistencia.
@@ -76,8 +77,12 @@ El inventory-service consume al products-service vía HTTP, autenticándose con 
 ***Estandarización de respuestas***
 Ambos microservicios usan un interceptor global para devolver datos en formato JSON:API.
 
+***Versionado de API***
+Se implementa versionado en la URL (/api/v1/...). En caso de breaking changes, se podrá liberar /api/v2
 ### ⚙️ Decisiones técnicas y justificaciones
 - Entorno de ejecución NodeJS con NestJS + TypeScript: Framework modular, con DI, interceptores, middlewares y soporte de testing → facilita buenas prácticas en APIs REST.
+- ***Jest*** para pruebas unitarias e integración:
+ -NestJS viene configurado por defecto para trabajar con Jest, lo que reduce fricción y permite comenzar a probar sin dependencias adicionales.
 - ***MySQL en lugar de MongoDB:*** 
  -Los datos de productos e inventario tienen relaciones claras y transacciones simples.
  -La consistencia relacional es más útil que la flexibilidad de documentos.
@@ -85,7 +90,7 @@ Ambos microservicios usan un interceptor global para devolver datos en formato J
 - ***Swagger:*** Auto-documentación para consumidores de la API.
 - ***API Keys entre servicios***: Simple, suficiente para la prueba, evita exponer endpoints sin control.
 - ***JSON:API***: Estandariza la comunicación, estructura clara para recursos
-- 
+- ***Versionado por URI***: Patrón más simple y conocido, soporte nativo en NestJS.
 
 El cliente puede consumir directamente ambos microservicios.
 
